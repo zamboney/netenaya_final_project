@@ -7,12 +7,21 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>SendPic</ion-title>
+    <ion-title>New Receipt</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <img [src]="imageBase64" />
+    <div>{{ uploadPercent | async }}</div>
+    <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button (click)="sendPicture()" full>
+      <ion-icon name="send"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-footer>

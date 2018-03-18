@@ -15,14 +15,19 @@ import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from '../environment';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { CameraPreview } from '@ionic-native/camera-preview'
+import { AngularFireStorageModule } from 'angularfire2/storage';
+
+import { CameraPreview } from '@ionic-native/camera-preview';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id';
+import { SendPicPage } from '../pages/send-pic/send-pic';
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    SendPicPage
   ],
   imports: [
     BrowserModule,
@@ -30,6 +35,7 @@ import { CameraPreview } from '@ionic-native/camera-preview'
     AngularFireModule.initializeApp(firebaseConfig), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    AngularFireStorageModule
     
   ],
   bootstrap: [IonicApp],
@@ -38,12 +44,14 @@ import { CameraPreview } from '@ionic-native/camera-preview'
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    SendPicPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     CameraPreview,
+    UniqueDeviceID,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
