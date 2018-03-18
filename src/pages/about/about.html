@@ -7,5 +7,14 @@
 </ion-header>
 
 <ion-content padding>
-
+  <div *ngFor="let item of items">
+    <div class='item'>
+      <div class='block' *ngFor='let position of item.positions; let i = index' [style.height]='position.height' [style.width]='position.width'
+        [style.top]='position.y' [style.left]='position.x'>
+        {{position.description}}
+      </div>
+      <img [src]='item.downloadURL' />
+    </div>
+    <!-- {{ item | json }} -->
+  </div>
 </ion-content>

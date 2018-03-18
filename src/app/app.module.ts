@@ -20,6 +20,8 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { CameraPreview } from '@ionic-native/camera-preview';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { SendPicPage } from '../pages/send-pic/send-pic';
+import { ItemsPage } from '../pages/items/items';
+import { DetailsPage, EditBlock } from '../pages/details/details';
 @NgModule({
   declarations: [
     MyApp,
@@ -27,7 +29,10 @@ import { SendPicPage } from '../pages/send-pic/send-pic';
     ContactPage,
     HomePage,
     TabsPage,
-    SendPicPage
+    SendPicPage,
+    ItemsPage,
+    DetailsPage,
+    EditBlock
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,10 @@ import { SendPicPage } from '../pages/send-pic/send-pic';
     ContactPage,
     HomePage,
     TabsPage,
-    SendPicPage
+    SendPicPage,
+    ItemsPage,
+    DetailsPage,
+    EditBlock
   ],
   providers: [
     StatusBar,
