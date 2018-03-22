@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { ItemsPage } from '../items/items';
+import { SpinnerDialog } from '@ionic-native/spinner-dialog';
+import { PieChartPage } from '../pie-chart/pie-chart';
 
 /**
  * Generated class for the ConfirmItemPage page.
@@ -17,17 +19,19 @@ import { ItemsPage } from '../items/items';
 export class ConfirmItemPage {
   item: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public db: AngularFireDatabase, ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public db: AngularFireDatabase,private spinnerDialog: SpinnerDialog, ) {
     this.item = navParams.data;
   }
   submit() {
+    this.spinnerDialog.show();
     this.db.list('2b4fa2c3-6536-fcf7-3594-690718542978', ref => ref.orderByChild('id').equalTo(this.item.id)).snapshotChanges().subscribe((snap) => {
       this.db.list('2b4fa2c3-6536-fcf7-3594-690718542978').update(snap[0].key, {
         name: this.item.name,
         amount: this.item.amount,
         payment: this.item.payment
       });
-      this.navCtrl.setPages([{page:ItemsPage}]);
+      this.spinnerDialog.hide();
+      this.navCtrl.setPages([{page:PieChartPage}]);
     });
   }
 

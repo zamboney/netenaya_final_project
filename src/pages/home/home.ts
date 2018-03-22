@@ -41,7 +41,7 @@ export class HomePage {
     });
     console.log('width', this.getWidth);
     
-    this.startCamera();
+    // this.startCamera();
     
   }
   startCamera() {
@@ -55,9 +55,13 @@ export class HomePage {
     // Set the handler to run every time we take a picture
     
   }
+  ionViewDidLoad() {
+    this.startCamera();
+  }
   takePicture() {
     this.cameraPreview.takePicture(pictureOpts).then((imageData) => {
       this.navCtrl.push(SendPicPage,imageData)
+      this.cameraPreview.stopCamera();
     }, (err) => {
       console.log(err);
     });

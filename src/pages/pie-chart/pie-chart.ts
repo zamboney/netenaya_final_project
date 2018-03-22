@@ -18,7 +18,8 @@ import { ItemsPage } from '../items/items';
 export class PieChartPage {
 
   constructor(public db: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
-    this.db.list('2b4fa2c3-6536-fcf7-3594-690718542978').valueChanges().subscribe((data) => {
+    this.db.list('2b4fa2c3-6536-fcf7-3594-690718542978').valueChanges().subscribe((rawData) => {
+      let data = rawData.filter((item: any) => item.amount && item.name && item.payment);
       this.doughnutChartLabels = [];
       this.doughnutChartLabels = _.uniq(data.map((data: any) => data.payment));
       this.doughnutChartData = [];
@@ -40,8 +41,8 @@ export class PieChartPage {
       this.sum = this.doughnutChartData.reduce((a, b) => a += b);
     });
   }
-  public details(items){
-    this.navCtrl.push(ItemsPage,items);
+  public details(items) {
+    this.navCtrl.push(ItemsPage, items);
   }
   public payments: any[] = [];
   public doughnutChartLabels: string[];
