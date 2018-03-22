@@ -8,6 +8,7 @@ import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
+import { ChartsModule } from 'ng2-charts';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -23,6 +24,8 @@ import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { SendPicPage } from '../pages/send-pic/send-pic';
 import { ItemsPage } from '../pages/items/items';
 import { DetailsPage, EditBlock } from '../pages/details/details';
+import { ConfirmItemPage } from '../pages/confirm-item/confirm-item';
+import { PieChartPage } from '../pages/pie-chart/pie-chart';
 @NgModule({
   declarations: [
     MyApp,
@@ -33,7 +36,9 @@ import { DetailsPage, EditBlock } from '../pages/details/details';
     SendPicPage,
     ItemsPage,
     DetailsPage,
-    EditBlock
+    EditBlock,
+    ConfirmItemPage,
+    PieChartPage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,8 @@ import { DetailsPage, EditBlock } from '../pages/details/details';
     AngularFireModule.initializeApp(firebaseConfig), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    ChartsModule
     
   ],
   bootstrap: [IonicApp],
@@ -54,7 +60,9 @@ import { DetailsPage, EditBlock } from '../pages/details/details';
     SendPicPage,
     ItemsPage,
     DetailsPage,
-    EditBlock
+    EditBlock,
+    ConfirmItemPage,
+    PieChartPage
   ],
   providers: [
     StatusBar,

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { SpinnerDialog } from '@ionic-native/spinner-dialog';
 import { DetailsPage } from '../details/details';
+import { ConfirmItemPage } from '../confirm-item/confirm-item';
 
 
 /**
@@ -20,6 +21,30 @@ import { DetailsPage } from '../details/details';
   templateUrl: 'send-pic.html',
 })
 export class SendPicPage {
+  setAmount(data: any): number {
+    const amountBlock = data.positions.filter((pos) => pos.words.filter((w) => w.word.match(/ש.*ל.*(מ|ם)/)).length);
+    if (!amountBlock.length) {
+      return;
+    }
+    const top_y = amountBlock[0].words.filter((w) => w.word.match(/ש.*ל.*(מ|ם)/))[0].boundingBox.vertices[0].y
+    const bottom_y = amountBlock[0].words.filter((w) => w.word.match(/ש.*ל.*(מ|ם)/))[0].boundingBox.vertices[2].y
+    let amount = data.positions.filter((w) => w.boundingBox.vertices[0].y + 10 >= top_y && w.boundingBox.vertices[0].y - 10 <= bottom_y).map((p) => parseFloat(p.description)).filter(Boolean);
+    if (amount.length) {
+      return amount[0];
+    } else {
+      return -1;
+    }
+
+  }
+  setName(data: any) {
+    return data.positions.filter((w) => w.boundingBox.vertices[0].y - 5 <= data.positions[0].boundingBox.vertices[2].y).reduce((a, b) => a += ' ' + b.description, '').trim()
+  }
+  setPayment(data: any) {
+    const paymentBlock = data.positions.filter((pos) => pos.words.filter((w) => w.word.match(/(מזומן|אשראי)/)).length);
+    if (paymentBlock.length) {
+      return paymentBlock[0].description.match(/(מזומן|אשראי)/)[1];
+    }
+  }
   imageBase64: any;
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
@@ -64,6 +89,9 @@ export class SendPicPage {
               let positions = [];
               item[0].vision[0].fullTextAnnotation.pages[0].blocks.forEach((block) => {
                 block.paragraphs.forEach((v) => {
+                  v.words.forEach((item) => {
+                    item.word = item.symbols.reduce((a, b) => a += b.text, '');
+                  })
                   v.description = v.words.reverse().reduce((a, b) => {
                     b.symbols[0].text = ' ' + b.symbols[0].text; return b.symbols.concat(a)
                   }, []).reduce((a, b) => a += b.text, '');
@@ -80,11 +108,11 @@ export class SendPicPage {
               })
               sub.unsubscribe();
               this.spinnerDialog.hide();
-              let data = {
-                name: item[0].name,
+              let data: any = {
                 id: item[0].id,
                 downloadURL: item[0].downloadURL,
-                positions: positions
+                positions: positions,
+
                 // positions: item[0].vision.map((vv) => vv.textAnnotations.map((v) => {
                 //   // v.width = ((328 / 720) * (v.boundingPoly.vertices[2].x - v.boundingPoly.vertices[0].x)) + 'px';
                 //   v.width = ((v.boundingPoly.vertices[2].x - v.boundingPoly.vertices[0].x) / 7.2) + '%';
@@ -97,7 +125,10 @@ export class SendPicPage {
                 //   return v
                 // }))[0]
               };
-              this.navCtrl.push(DetailsPage, data);
+              data.name = this.setName(data);
+              data.amount = this.setAmount(data);
+              data.payment = this.setPayment(data);
+              this.navCtrl.push(ConfirmItemPage, data);
             }
 
           })

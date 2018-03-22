@@ -1,0 +1,31 @@
+<!--
+  Generated template for the PieChartPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>pie-chart</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding *ngIf="doughnutChartData">
+  <div style="display: block">
+    <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)"></canvas>
+  </div>
+  <div class="row header">
+    <div class="col">Name</div>
+    <div class="col">Amount</div>
+  </div>
+  <div (tap)="details(p.items)"class="row" *ngFor="let p of payments">
+    <div class="col">{{p.name}}</div>
+    <div class="col">{{p.amount}}</div>
+  </div>
+  <h1 ion-text color="secondary">TOTAL: {{sum}}</h1>
+
+</ion-content>
